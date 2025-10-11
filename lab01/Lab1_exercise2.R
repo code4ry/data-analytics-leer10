@@ -12,10 +12,10 @@ epi.data <- read_csv("epi_results_2024_pop_gdp.csv")
 View(epi.data)
 
 # print summary of variables in dataframe
-summary(epi.data$EPI.new)
+summary(epi.data$ECO.new)
 
 # print values in variable
-epi.data$EPI.new
+epi.data$ECO.new
 
 
 ######## Optional ########
@@ -25,7 +25,7 @@ epi.data$EPI.new
 attach(epi.data)
 
 # print values in variable
-EPI.new
+ECO.new
 
 ########################
 
@@ -33,72 +33,72 @@ EPI.new
 
 ### Explore Variable ###
 
-EPI <- epi.data$EPI.new
+ECO <- epi.data$ECO.new
 
 # find NAs in variable - outputs vector of logical values, true if NA, false otherwise
-NAs <- is.na(EPI)
+NAs <- is.na(ECO)
 
-EPI[which(NAs)]
+ECO[which(NAs)]
 
 # print values in variable 
-MHP <- epi.data$MHP.new
+TKP <- epi.data$TKP.new
 
-MHP
+TKP
 
 # find NAs inv variable - outputs vector of logical values, true if NA, false otherwise
-NAs <- is.na(MHP)
+NAs <- is.na(TKP)
 
 # print NAs
-MHP[which(NAs)]
+TKP[which(NAs)]
 
 # take subset of NOT NAs from variable
-MHP.noNA <- MHP[!NAs]
+TKP.noNA <- TKP[!NAs]
 
-MHP.noNA
+TKP.noNA
 
 # filter for only values above 30
-MHP.above30 <- MHP.noNA[MHP.noNA>30]
+TKP.above30 <- TKP.noNA[TKP.noNA>30]
 
-MHP.above30
+TKP.above30
 
 # stats
-summary(MHP.above30)
+summary(TKP.above30)
 
 # boxplot of variable(s)
-boxplot(EPI, MHP.above30, names = c("EPI","MHP"))
+boxplot(ECO, TKP.above30, names = c("ECO","TKP"))
 
 
 ### Histograms ###
 
 # histogram (frequency distribution)
-hist(EPI)
+hist(ECO)
 
 # define sequence of values over which to plot histogram
 x <- seq(20., 80., 10)
 
 # histogram (frequency distribution) over range
-hist(EPI, x, prob=TRUE)
+hist(ECO, x, prob=TRUE)
 
 # print estimated density curve for variable
-lines(density(EPI,na.rm=TRUE,bw=1.)) # or try bw=“SJ”
+lines(density(ECO,na.rm=TRUE,bw=1.)) # or try bw=“SJ”
 
 # print rug
-rug(EPI)
+rug(ECO)
 
 x <- seq(20., 80., 5)
 
-# histogram (frequency distribution) over rabge
-hist(EPI, x, prob=TRUE) 
+# histogram (frequency distribution) over range
+hist(ECO, x, prob=TRUE) 
 
 # print estimated density curve for variable
-lines(density(EPI,na.rm=TRUE, bw="SJ"))
+lines(density(ECO,na.rm=TRUE, bw="SJ"))
 
 # print rug
-rug(EPI)
+rug(ECO)
 
 
-# histogram (frequency distribution) over rabge
-hist(EPI.new, x, prob=TRUE) 
+# histogram (frequency distribution) over range
+hist(ECO.new, x, prob=TRUE) 
 
 # range
 x1<-seq(20,80,1)
@@ -121,15 +121,15 @@ lines(x1,.5*d2)
 ### Empirical Cumulative Distribution Function ###
 
 # plot ecdfs
-plot(ecdf(EPI), do.points=FALSE, verticals=TRUE) 
+plot(ecdf(ECO), do.points=FALSE, verticals=TRUE) 
 
-plot(ecdf(MHP), do.points=FALSE, verticals=TRUE) 
+plot(ecdf(TKP), do.points=FALSE, verticals=TRUE) 
 
 
 ### Quantile-quantile Plots ###
 
 # print quantile-quantile plot for variable with theoretical normal distribuion
-qqnorm(EPI); qqline(EPI)
+qqnorm(ECO); qqline(ECO)
 
 
 # print quantile-quantile plot for random numbers from a normal distribution with theoretical normal distribution
@@ -138,18 +138,18 @@ qqnorm(x); qqline(x)
 
 
 # print quantile-quantile plot for variable with any theoretical distribution
-qqplot(rnorm(180), EPI.new.sub, xlab = "Q-Q plot for norm dsn") 
-qqline(EPI.new.sub)
+qqplot(rnorm(180), ECO.new.sub, xlab = "Q-Q plot for norm dsn") 
+qqline(ECO.new.sub)
 
 # print quantile-quantile plot for 2 variables
 qqplot(EPI, MHP, xlab = "Q-Q plot for EPI vs MHP") 
 
-qqplot(x, EPI, xlab = "Q-Q plot for EPI vs MHP") 
-qqline(EPI)
+qqplot(x, ECO, xlab = "Q-Q plot for ECO vs TKP") 
+qqline(ECO)
 
 y <- rnorm(500)
 
-qqplot(x, y, xlab = "Q-Q plot for EPI vs MHP") 
+qqplot(x, y, xlab = "Q-Q plot for ECO vs TKP") 
 qqline(y)
 
 
