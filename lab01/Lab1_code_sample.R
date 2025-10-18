@@ -1,5 +1,6 @@
 library(readr)
 library(EnvStats)
+library(nortest)
 
 
 # set working directory (relative path)
@@ -98,7 +99,7 @@ rug(EPI)
 
 
 # histogram (frequency distribution) over rabge
-hist(EPI.new, x, prob=TRUE) 
+hist(EPI, x, prob=TRUE) 
 
 # range
 x1<-seq(20,80,1)
@@ -149,7 +150,7 @@ qqline(EPI)
 
 y <- rnorm(500)
 
-qqplot(x, y, xlab = "Q-Q plot for EPI vs MHP") 
+qqplot(x, x, xlab = "Q-Q plot for EPI vs MHP") 
 qqline(y)
 
 
