@@ -10,6 +10,7 @@ library(e1071)
 library(class)
 library(psych)
 library(readr)
+library(caret)
 
 ## set working directory so that files can be referenced without the full path
 setwd("~/GitHub/data-analytics-leer10/lab04/")
@@ -61,8 +62,68 @@ autoplot(principal_components, data = wine, colour = 'Type',
          loadings.label = TRUE, loadings.label.size = 3, scale = 0)
 
 ## choosing the best features to then run classification
+features <- c("Alcohol", "Ash", "Proline", "Magnesium", "Hue", "Od280/od315 of diluted wines")
 
-features <- c("Alcohol", "Ash", "Proline", "Color Intensity", "Hue", "Od280/od315 of diluted wines")
+## train test split wine data for kNN classification
+split.rat <- 0.7
+train.indexes <- sample(1:nrow(wine), size = split.rat * nrow(wine))
+
+train.wine <- wine[train.indexes,]
+test.wine <- wine[-train.indexes,]
+
+control <- trainControl(method="cv", number=20)
+metric <- "Accuracy"
+
+wine.knn <- train(Type~., data=train.wine, method="knn", metric=metric, trControl=control, preProcess = c("center", "scale"))
+
+knn.predicted <- predict(wine.knn,test.wine)
+
+cm <- as.matrix(table(Actual = test.wine$Type, Predicted = knn.predicted))
+cm
+
+## print precision, recall, and f1 values
+n = sum(cm) # number of instances
+nc = nrow(cm) # number of classes
+diag = diag(cm) # number of correctly classified instances per class 
+rowsums = apply(cm, 1, sum) # number of instances per class
+colsums = apply(cm, 2, sum) # number of predictions per class
+p = rowsums / n # distribution of instances over the actual classes
+q = colsums / n # distribution of instances over the predicted 
+
+accuracy = sum(diag)/n
+accuracy
+
+precision = diag / colsums
+recall = diag / rowsums 
+f1 = 2 * precision * recall / (precision + recall) 
 
 
+data.frame(recall, precision, f1)
 
+## running kNN model based on features that contribute most to the 1st and 2nd PCs
+train1 <- train.wine[, c(features, "Type")]
+test1 <- test.wine[, c(features, "Type")]
+
+wine.knn1 <- train(Type~., data=train1, method="knn", metric=metric, trControl=control, preProcess = c("center", "scale"))
+
+knn1.predicted <- predict(wine.knn1,test1)
+
+cm1 <- as.matrix(table(Actual = test1$Type, Predicted = knn1.predicted))
+cm1
+
+n = sum(cm1) # number of instances
+nc = nrow(cm1) # number of classes
+diag = diag(cm1) # number of correctly classified instances per class 
+rowsums = apply(cm1, 1, sum) # number of instances per class
+colsums = apply(cm1, 2, sum) # number of predictions per class
+p = rowsums / n # distribution of instances over the actual classes
+q = colsums / n # distribution of instances over the predicted 
+
+accuracy = sum(diag)/n
+accuracy
+
+precision = diag / colsums
+recall = diag / rowsums 
+f1 = 2 * precision * recall / (precision + recall) 
+
+data.frame(recall, precision, f1)
