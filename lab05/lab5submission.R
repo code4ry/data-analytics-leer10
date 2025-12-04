@@ -1,0 +1,10 @@
+# Load libraries
+library(class)
+library(caret)
+library(cluster)
+library(factoextra)
+library(GGally)
+library(ggplot2)
+library(psych)
+library(dendextend)
+library(colorspace)
