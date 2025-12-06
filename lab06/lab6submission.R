@@ -1,0 +1,8 @@
+library(ggplot2)
+library(ggfortify)
+library(GGally)
+library(e1071)
+library(class)
+library(psych)
+library(readr)
+library(caret)
